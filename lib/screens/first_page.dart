@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:quiz_app/screens/login_register_page.dart';
+import 'package:quiz_app/screens/menuPage.dart';
 import 'package:quiz_app/utils/images.dart';
+import 'dart:async';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class firsPage extends StatefulWidget {
   const firsPage({super.key});
@@ -12,18 +15,37 @@ class firsPage extends StatefulWidget {
 }
 
 class _firsPageState extends State<firsPage> {
-  @override
 
+  bool isLog = false;
+
+  Future<bool> isLoggedIn() async {
+  
+    SharedPreferences _pref = await SharedPreferences.getInstance();
+    isLog = _pref.getBool("isLoggedIn") ?? false;
+    return _pref.getBool("isLoggedIn") ?? false;
+  }
+
+  @override
   void initState() {
     super.initState();
-    onNextPage();
+    isLoggedIn();
+    goNext();
   }
 
-   onNextPage(){
-    Future.delayed(Duration(seconds: 3),(){
-      Navigator.push(context, MaterialPageRoute(builder: (context)=>loginRegPage()));
-    });
+  void goNext() {
+    Future.delayed(Duration(seconds: 3)).then((value) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (_) {
+            return isLog ? menuPage() : loginRegPage();
+          },
+        ),
+      );
+          });
   }
+  @override
+
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(

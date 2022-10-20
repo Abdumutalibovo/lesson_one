@@ -42,7 +42,8 @@ class loginRegPage extends StatelessWidget {
                 width: 300,
                 height: 50,
                
-            child: const TextField(
+            child: TextFormField(
+              
             style: TextStyle(),
             keyboardType: TextInputType.phone,
             obscureText: false,

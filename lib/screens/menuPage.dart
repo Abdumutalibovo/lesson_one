@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:quiz_app/screens/first_page.dart';
+import 'package:quiz_app/screens/login_register_page.dart';
 import 'package:quiz_app/screens/question_page.dart';
 import 'package:quiz_app/screens/question_page2.dart';
 import 'package:quiz_app/screens/question_page3.dart';
 import 'package:quiz_app/utils/colors.dart';
 import 'package:quiz_app/utils/images.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class menuPage extends StatelessWidget {
   const menuPage({super.key});
@@ -16,6 +19,26 @@ class menuPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
+        actions: [
+          IconButton(onPressed: (){
+            showDialog(context: context, builder: (context) {
+              return AlertDialog(
+                title: Text("Chiqish!", style: TextStyle(fontSize: 25),),
+                content: Text("Rostan ham chiqishni xoxlaysizmi?",style: TextStyle(fontSize: 16),),
+                actions: [
+                  TextButton(onPressed: (){
+                    saveLogin(context);
+                  }, child: Text("ok")),
+                  TextButton(onPressed: (){
+                    Navigator.of(context).pop();
+                  }, child: Text("no")),
+                ],
+              );
+            },);
+          }, 
+          icon: Icon(Icons.logout_outlined, color: Colors.black,)),
+          SizedBox(width: 10,),
+        ],
         centerTitle: true,
         title: Text("Menu", style: TextStyle(fontSize: 24, color: Colors.black),),
       ),
@@ -66,6 +89,13 @@ class menuPage extends StatelessWidget {
       ),
       backgroundColor: Colors.white,
     );
+  }
+   void saveLogin(context) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.setBool("isLoggedIn", false);
+
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => const loginRegPage()));
   }
 }
 

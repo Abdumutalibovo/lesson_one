@@ -3,6 +3,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:quiz_app/screens/first_page.dart';
+import 'package:quiz_app/screens/menuPage.dart';
 import 'package:quiz_app/screens/otp_page.dart';
 import 'package:quiz_app/utils/images.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -73,8 +74,6 @@ class loginRegPage extends StatelessWidget {
                 child: InkWell(
                   onTap: (){
                     saveLogin(context);
-                    // Navigator.push(context, MaterialPageRoute(builder: (_) => otpPage()),
-  // );
                   },
                   child: Center(child: Text("Login", style: TextStyle(color: Colors.white, fontSize: 20),))),
                 ),
@@ -89,11 +88,11 @@ class loginRegPage extends StatelessWidget {
         ));
   }
   void saveLogin(context) async {
-    SharedPreferences _pref = await SharedPreferences.getInstance();
-    _pref.setBool("isLoggedIn", true);
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.setBool("isLoggedIn", true);
 
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => firsPage()));
+        context, MaterialPageRoute(builder: (context) => const otpPage()));
   }
 }
 
